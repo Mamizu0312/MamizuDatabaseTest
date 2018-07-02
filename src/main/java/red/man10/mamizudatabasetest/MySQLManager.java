@@ -50,7 +50,7 @@ public class MySQLManager {
                 "uuid varchar(40)," +
                 "health double," +
                 "food int," +
-                ""+
+                "lastsave date"+
                 ");");
     }
 
