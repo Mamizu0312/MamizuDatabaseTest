@@ -34,8 +34,8 @@ public final class MamizuDatabaseTest extends JavaPlugin {
         Player p = (Player) sender;
         if(args.length == 1) {
             if(args[0].equalsIgnoreCase("save")) {
-                double hel = p.getHealth();
-                int hara = p.getFoodLevel();
+                double health = p.getHealth();
+                int food = p.getFoodLevel();
             }
         }
         return true;
