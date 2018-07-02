@@ -49,7 +49,7 @@ public class MySQLManager {
                 "name varchar(40)," +
                 "uuid varchar(40)," +
                 "health double," +
-                "food int," +
+                "food int" +
                 ");");
     }
 

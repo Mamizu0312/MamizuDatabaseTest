@@ -16,8 +16,8 @@ public final class MamizuDatabaseTest extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        mysql = new MySQLManager(this, "MamizuDatabaseTest");
         saveDefaultConfig();
+        mysql = new MySQLManager(this, "MamizuDatabaseTest");
         getCommand("mamizutest").setExecutor(this);
     }
 
