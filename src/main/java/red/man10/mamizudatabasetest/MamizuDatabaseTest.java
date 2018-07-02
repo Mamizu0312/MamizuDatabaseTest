@@ -63,6 +63,7 @@ public final class MamizuDatabaseTest extends JavaPlugin {
             }
             mysql.close();
             String sqls = "INSERT INTO users (name,uuid,health,food) VALUES ('"+p.getName()+"','" + p.getUniqueId().toString() + "',"+health+","+food+");";
+            p.sendMessage("§a§lセーブ完了");
             mysql.execute(sqls);
         });
     }
