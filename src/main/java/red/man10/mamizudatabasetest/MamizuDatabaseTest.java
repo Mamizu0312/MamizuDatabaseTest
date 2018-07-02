@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.UUID;
 
 public final class MamizuDatabaseTest extends JavaPlugin {
@@ -36,7 +37,9 @@ public final class MamizuDatabaseTest extends JavaPlugin {
             if(args[0].equalsIgnoreCase("save")) {
                 double health = p.getHealth();
                 int food = p.getFoodLevel();
-                Save(p,health,food);
+                Date lastsave = new Date();
+                Save(p,health,food,lastsave);
+
             } else if(args[0].equalsIgnoreCase("load")) {
                 load(p);
             }
@@ -44,7 +47,7 @@ public final class MamizuDatabaseTest extends JavaPlugin {
         return true;
     }
 
-    public void Save(Player p,double health,int food){
+    public void Save(Player p,double health,int food, Date lastsave){
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             String sql = "SELECT * FROM users WHERE uuid = '" + p.getUniqueId().toString() + "';";
             ResultSet rs = mysql.query(sql);
@@ -52,7 +55,7 @@ public final class MamizuDatabaseTest extends JavaPlugin {
                 try {
                     if(rs.next()) {
                         mysql.close();
-                        String sqls = "UPDATE users SET health = "+health+" , food = "+food+" WHERE uuid = '" + p.getUniqueId().toString() + "';";
+                        String sqls = "UPDATE users SET health = "+health+" , food = "+food+" , lastsave = "+lastsave+" WHERE uuid = '" + p.getUniqueId().toString() + "';";
                         mysql.execute(sqls);
                         return;
                     }
@@ -62,8 +65,9 @@ public final class MamizuDatabaseTest extends JavaPlugin {
                 }
             }
             mysql.close();
-            String sqls = "INSERT INTO users (name,uuid,health,food) VALUES ('"+p.getName()+"','" + p.getUniqueId().toString() + "',"+health+","+food+");";
+            String sqls = "INSERT INTO users (name,uuid,health,food) VALUES ('"+p.getName()+"','" + p.getUniqueId().toString() + "',"+health+","+food+","+lastsave+");";
             p.sendMessage("§a§lセーブ完了");
+            p.sendMessage("§a§l最後のセーブ時刻:"+lastsave);
             mysql.execute(sqls);
         });
     }
@@ -81,9 +85,11 @@ public final class MamizuDatabaseTest extends JavaPlugin {
                 if (rs.next()) {
                     double health = rs.getDouble("health");
                     int food = rs.getInt("food");
+                    Date lastsave = rs.getDate("lastsave");
                     p.setHealth(health);
                     p.setFoodLevel(food);
                     p.sendMessage("§a§lデータをロードしました");
+                    p.sendMessage("§a§lセーブ時の時刻:"+lastsave);
                 }else{
                     p.sendMessage("§c§lデータが存在しません");
                 }
