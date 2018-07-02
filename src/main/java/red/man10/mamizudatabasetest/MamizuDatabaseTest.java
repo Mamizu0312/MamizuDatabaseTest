@@ -36,6 +36,9 @@ public final class MamizuDatabaseTest extends JavaPlugin {
             if(args[0].equalsIgnoreCase("save")) {
                 double health = p.getHealth();
                 int food = p.getFoodLevel();
+                Save(p,health,food);
+            } else if(args[0].equalsIgnoreCase("load")) {
+                load(p);
             }
         }
         return true;
