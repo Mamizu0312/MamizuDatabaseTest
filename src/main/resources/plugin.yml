@@ -1,0 +1,8 @@
+name: MamizuDatabaseTest
+version: ${project.version}
+main: red.man10.mamizudatabasetest.MamizuDatabaseTest
+commands:
+  mamizutest:
+    description: MamizuDatabasetest
+    usage: /<command>
+    default: op
